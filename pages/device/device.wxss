@@ -1,0 +1,66 @@
+page {
+  background-color: #f8f8f8;
+}
+
+.container {
+  padding: 10rpx;
+  align-items: left;
+}
+
+.input {
+  width: 60%;
+  border: 1px solid lightgray;
+  border-radius: 6px;
+  height: 30px;
+}
+
+.button {
+  position: absolute;
+  right: 25rpx;
+  height: 30px;
+  font-size: 12px;
+}
+
+
+.choose-project {
+  width: 100%;
+  margin-top: 3px;
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  align-items: center;
+  border-radius: 6px;
+  border: 1px solid lightgray;
+}
+
+.choose-project>input {
+  font-size: 15px;
+  margin: 16px;
+  color: #3A84FF;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modify-device-name{
+  width: 100%;
+  margin-top: 3px;
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.device-data-item{
+  display: flex;
+  justify-content: space-between;
+  margin: 20rpx;
+  font-size: 14px;
+  border-bottom:  1px solid #E7E7E7;
+  height: 65rpx;
+}
