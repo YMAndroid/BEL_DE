@@ -211,5 +211,14 @@ Page({
         }
       })
     }
+  },
+
+  charUUIDtap:function(){
+    if(!this.data.selectServiceUUID){
+      wx.showToast({
+        title: '请先选择服务UUID',
+        icon:'none'
+      })
+    }
   }
 })

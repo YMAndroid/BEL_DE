@@ -14,7 +14,7 @@
     </picker>
   </view>
 
-
+  <block wx:if="{{selectServiceUUIDIndex}}">
   <view class="choose-project" style="margin-top:20rpx">
     <picker style="width:100%" bindchange="getCharUUID" value="{{index}}" range="{{characteristics}}"
       header-text="选择特征值UUID" range-key="uuid">
@@ -25,6 +25,16 @@
       </view>
     </picker>
   </view>
+</block>
+<block wx:else>
+  <view class="choose-project" style="margin-top:20rpx" bindtap="charUUIDtap">
+    <view class="item">
+        <input style="font-size:12px;width:100%" placeholder="选择特征值UUID" disabled="true"
+          value="{{selectCharUUID}}"></input>
+        <image src="/images/arrow.png" style=" width: 30rpx; height: 30rpx; position: absolute; right: 30rpx;"></image>
+      </view>
+  </view>
+</block>
 
   <view class="modify-device-name" style="margin-top:20rpx">
     <text class="text">设备名：</text>
