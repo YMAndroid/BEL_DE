@@ -1,7 +1,24 @@
 <view id='head' class="container">
+
+<view class="head-view">
   <text style="font-size:medium;word-break:break-all">设备名称：{{name}}</text>
   <text style="font-size:x-small;color:gray;word-break:break-all">设备ID：{{connectedDeviceId}}</text>
   <text style="font-size:x-small;color:gray">状态：{{connected?"已连接":"已断开"}}</text>
+</view>
+
+<view class="device-type">
+  <picker bindchange="getDeviceType" value="{{index}}" range="{{deviceTypeList}}" header-text="选择设备类型"
+      >
+    <text style="font-size:12px;color:#3A84FF">设备类型:</text>
+    <view class="devicetype-item">
+        <input class="devicetype-input" style="margin-left:10rpx;font-size:12px;width:100rpx"  disabled="true"
+          value="{{selectDeviceTypeValue}}"></input>
+        <image src="/images/arrow.png" style=" width: 30rpx; height: 30rpx; "></image>
+      </view>
+  </picker>
+</view>
+ 
+<view class="common-horizontal-div-line" style="height:8px;margin-top:10rpx"></view>
 
   <view class="choose-project">
     <picker style="width:100%" bindchange="getServiceUUID" value="{{index}}" range="{{services}}" header-text="选择服务UUID"
@@ -15,50 +32,49 @@
   </view>
 
   <block wx:if="{{selectServiceUUIDIndex}}">
-  <view class="choose-project" style="margin-top:20rpx">
-    <picker style="width:100%" bindchange="getCharUUID" value="{{index}}" range="{{characteristics}}"
-      header-text="选择特征值UUID" range-key="uuid">
+    <view class="choose-project" style="margin-top:20rpx">
+      <picker style="width:100%" bindchange="getCharUUID" value="{{index}}" range="{{characteristics}}"
+        header-text="选择特征值UUID" range-key="uuid">
+        <view class="item">
+          <input style="font-size:12px;width:100%" placeholder="选择特征值UUID" disabled="true"
+            value="{{selectCharUUID}}"></input>
+          <image src="/images/arrow.png" style=" width: 30rpx; height: 30rpx; position: absolute; right: 30rpx;">
+          </image>
+        </view>
+      </picker>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="choose-project" style="margin-top:20rpx" bindtap="charUUIDtap">
       <view class="item">
         <input style="font-size:12px;width:100%" placeholder="选择特征值UUID" disabled="true"
           value="{{selectCharUUID}}"></input>
         <image src="/images/arrow.png" style=" width: 30rpx; height: 30rpx; position: absolute; right: 30rpx;"></image>
       </view>
-    </picker>
-  </view>
-</block>
-<block wx:else>
-  <view class="choose-project" style="margin-top:20rpx" bindtap="charUUIDtap">
-    <view class="item">
-        <input style="font-size:12px;width:100%" placeholder="选择特征值UUID" disabled="true"
-          value="{{selectCharUUID}}"></input>
-        <image src="/images/arrow.png" style=" width: 30rpx; height: 30rpx; position: absolute; right: 30rpx;"></image>
-      </view>
-  </view>
-</block>
+    </view>
+  </block>
 
-  <view class="modify-device-name" style="margin-top:20rpx">
+  <view class="modify-device-name" style="margin-top:20rpx" wx:if="{{selectDeviceTypeValue == '从设备'}}">
     <text class="text">设备名：</text>
     <input class="input" style="margin-left:10rpx" style="font-size:12px" value="{{inputText}}" bindinput="bindInput"
       maxlength="20" placeholder="输入设备名称" />
     <button type="primary" class="button" bindtap="Send">修改</button>
   </view>
 
-  <!-- <text style="font-size:medium;margin-top:10px">接收内容：</text>
-  <input class="input"  disabled value="{{receiveText}}" maxlength="20" /> -->
 
-  <view class="modify-device-name" style="margin-top:20rpx">
-    <text class="text">接收的数据：</text>
-    <input class="input" style="margin-left:10rpx; width:80%" style="font-size:12px" value="{{receiveText}}" 
-      maxlength="20" placeholder="接收到的通知数据" />
-  </view>
-
+  <button type="primary" class="open-notify-button" style="margin-top:20rpx"   bindtap="openBleNotify">打开通知</button>
   <view class="common-horizontal-div-line" style="height:8px;margin-top:10rpx"></view>
 
-  <text style="font-size:14px; color:#bebbbb;">设备数据</text>
+  <text style="font-size:14px; color:#bebbbb;" wx:if="{{selectDeviceTypeValue == '主设备'}}">设备数据</text>
+  <view class="modify-device-name" style="margin-top:20rpx" wx:if="{{selectDeviceTypeValue == '从设备'}}">
+    <text class="text">接收数据：</text>
+    <input class="notify-input" style="margin-left:10rpx; width:100%" style="font-size:12px" value="{{receiveText}}"
+      maxlength="20" placeholder="接收到的通知数据" />
+  </view>
 </view>
 
 
-<scroll-view scroll-y style="width:100%;height: {{scrollHeight?scrollHeight+'px':'auto'}}">
+<scroll-view scroll-y  wx:if="{{selectDeviceTypeValue == '主设备'}}">
   <block wx:if="{{deviceDataList.length > 0}}">
     <block wx:for="{{deviceDataList}}" wx:key="deviceId">
       <view class="device-data-item">

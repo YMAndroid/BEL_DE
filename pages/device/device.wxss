@@ -7,8 +7,19 @@ page {
   align-items: left;
 }
 
+.devicetype-input {
+  border-radius: 6px;
+}
+
 .input {
-  width: 60%;
+  width: 62%;
+  border: 1px solid lightgray;
+  border-radius: 6px;
+  height: 30px;
+}
+
+.notify-input{
+  width: 75%;
   border: 1px solid lightgray;
   border-radius: 6px;
   height: 30px;
@@ -18,6 +29,12 @@ page {
   position: absolute;
   right: 25rpx;
   height: 30px;
+  font-size: 12px;
+}
+
+
+.open-notify-button {
+  width: 100%;
   font-size: 12px;
 }
 
@@ -38,6 +55,15 @@ page {
   margin: 16px;
   color: #3A84FF;
 }
+
+.devicetype-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border:  1px solid #E7E7E7;
+}
+
+
 
 .item {
   display: flex;
@@ -63,4 +89,19 @@ page {
   font-size: 14px;
   border-bottom:  1px solid #E7E7E7;
   height: 65rpx;
+}
+
+.head-view{
+  display: flex;
+  flex-direction: column;
+}
+
+.device-type{
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 30rpx;
+
+  border-radius: 6px;
+  align-items: center;
 }
