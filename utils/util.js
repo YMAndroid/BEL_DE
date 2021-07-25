@@ -28,7 +28,13 @@ function calcuComponentHeight(context,idnameArr,callback){
   })
 }
 
+function getBytesLength(str) {
+  // 在GBK编码里，除了ASCII字符，其它都占两个字符宽
+  return str.replace(/[^\x00-\xff]/g, 'xx').length;
+}
+
 module.exports = {
   formatTime: formatTime,
-  calcuComponentHeight: calcuComponentHeight
+  calcuComponentHeight: calcuComponentHeight,
+  getBytesLength:getBytesLength
 }

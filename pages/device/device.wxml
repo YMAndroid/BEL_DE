@@ -56,7 +56,7 @@
 
   <view class="modify-device-name" style="margin-top:20rpx" wx:if="{{selectDeviceTypeValue == '从设备'}}">
     <text class="text">设备名：</text>
-    <input class="input" style="margin-left:10rpx" style="font-size:12px" value="{{inputText}}" bindinput="bindInput"
+    <input class="input" maxlength="16" style="margin-left:10rpx" style="font-size:12px" value="{{inputText}}" bindinput="bindInput"
       maxlength="20" placeholder="输入设备名称" />
     <button type="primary" class="button" bindtap="Send">修改</button>
   </view>

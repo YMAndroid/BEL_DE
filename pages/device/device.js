@@ -56,6 +56,7 @@ Page({
       inputText: e.detail.value
     })
     console.log(e.detail.value)
+    
   },
   Send: function () {
     if (!this.data.inputText) {
@@ -239,11 +240,11 @@ Page({
 
   getBLEDeviceCahars: function () {
     wx.getBLEDeviceCharacteristics({
-      deviceId: options.connectedDeviceId,
+      deviceId: this.data.connectedDeviceId,
       serviceId: this.data.selectServiceUUID,
-      success: function (res) {
+      success: res=> {
         console.log(res.characteristics)
-        that.setData({
+        this.setData({
           characteristics: res.characteristics
         })
       }
