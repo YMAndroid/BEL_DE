@@ -3,8 +3,8 @@ const utils = require('../../utils/util');
 Page({
   data: {
     selectDeviceTypeIndex: 0, //0:从设备 1:主设备
-    deviceTypeList:['从设备','主设备'],
-    selectDeviceTypeValue:'从设备',
+    deviceTypeList: ['从设备', '主设备'],
+    selectDeviceTypeValue: '从设备',
     inputText: '',
     receiveText: '',
     name: '',
@@ -17,46 +17,18 @@ Page({
     selectCharUUID: '',
     selectCharUUIDIndex: 0,
     isOpenNotify: false,
-    deviceDataList: [{
-      deviceName: '设备1',
-      voltage: 2.4,
-      vurrent: 5
-    }, {
-      deviceName: '设备2',
-      voltage: 2.4,
-      vurrent: 5
-    }, {
-      deviceName: '设备3',
-      voltage: 2.4,
-      vurrent: 5
-    }, {
-      deviceName: '设备4',
-      voltage: 2.4,
-      vurrent: 5
-    }, {
-      deviceName: '设备5',
-      voltage: 2.4,
-      vurrent: 5
-    }, {
-      deviceName: '设备6',
-      voltage: 2.4,
-      vurrent: 5
-    }, {
-      deviceName: '设备7',
-      voltage: 2.4,
-      vurrent: '5'
-    }, {
-      deviceName: '设备8',
-      voltage: 2.4,
-      vurrent: 5
-    }],
+    //电压系数
+    voltageCoefficient: 0,
+    //电流系数
+    currentCoefficient: 0,
+    deviceDataList: [],
   },
   bindInput: function (e) {
     this.setData({
       inputText: e.detail.value
     })
     console.log(e.detail.value)
-    
+
   },
   Send: function () {
     if (!this.data.inputText) {
@@ -97,7 +69,7 @@ Page({
             duration: 2000
           })
           that.setData({
-            name:that.data.inputText
+            name: that.data.inputText
           })
         },
         fail: function (res) {
@@ -124,6 +96,8 @@ Page({
   },
   onLoad: function (options) {
     var that = this
+    //var testData = "1F0559616F67616E67" //--前两位为电压值  后面的为设备名称
+    //that.parseData(testData);
     console.log(options)
     that.setData({
       name: options.name,
@@ -144,14 +118,56 @@ Page({
         connected: res.connected
       })
     })
+
+    //1F0559616F67616E67
     wx.onBLECharacteristicValueChange(function (res) {
-      var receiveText = app.buf2string(res.value)
-      console.log('接收到数据：' + receiveText)
+      var receiveText = app.buf2hex(res.value)
+      console.log('接收到的hex数据：' + receiveText);
       that.setData({
         receiveText: receiveText
       })
+      //处理数据
+      //1F0559616F67616E67 --前两位为电压值  后面的为设备名称
+      that.parseData(receiveText);
     })
   },
+
+  parseData: function (str) {
+    var that = this;
+    var sub1 = str.substring(0, 2);
+    var sub2 = str.substring(2);
+    console.log("截取的前两位字符串:", sub1);
+    console.log("截取的剩余字符串:", sub2);
+    var voltage = app.hexToDecimalism(sub1)[0];
+    var deviceName = app.hexCharCodeToStr(sub2);
+    console.log("hexToString: " + deviceName);
+    console.log("hexToShi: " + voltage);
+    var deviceData = {
+      deviceName: deviceName,
+      voltage: voltage
+    }
+    console.log("deviceData : ", deviceData);
+    var temDeviceDataList = that.data.deviceDataList;
+    let isHave = false;
+    for (var i = 0; i < that.data.deviceDataList.length; i++) {
+      if (that.data.deviceDataList[i].deviceName == deviceName) {
+        isHave = true;
+        //当前设备存在，更新设备数据
+        that.setData({
+          ['deviceDataList[' + i + '].voltage']: voltage
+        })
+      }
+    }
+    console.log("isHave: " + isHave + " ; temDeviceDataList= " + temDeviceDataList)
+    if (!isHave) {
+      temDeviceDataList.push(deviceData);
+      that.setData({
+        deviceDataList: temDeviceDataList
+      })
+    }
+    console.log("isHave: " + isHave + " ; temDeviceDataList= " + JSON.stringify(temDeviceDataList))
+  },
+
   getServiceUUID: function (e) {
     this.setData({
       selectServiceUUIDIndex: e.detail.value,
@@ -242,7 +258,7 @@ Page({
     wx.getBLEDeviceCharacteristics({
       deviceId: this.data.connectedDeviceId,
       serviceId: this.data.selectServiceUUID,
-      success: res=> {
+      success: res => {
         console.log(res.characteristics)
         this.setData({
           characteristics: res.characteristics
@@ -251,10 +267,56 @@ Page({
     })
   },
 
-  getDeviceType: function(e){
+  getDeviceType: function (e) {
     this.setData({
-      selectDeviceTypeIndex:e.detail.value,
-      selectDeviceTypeValue:this.data.deviceTypeList[e.detail.value]
+      selectDeviceTypeIndex: e.detail.value,
+      selectDeviceTypeValue: this.data.deviceTypeList[e.detail.value]
+    })
+  },
+
+  voltageInput: function (e) {
+    console.log("电压input:", e.detail.value)
+    this.setData({
+      voltageCoefficient: e.detail.value
+    })
+  },
+
+  currentInput: function (e) {
+    console.log("电流input:", e.detail.value)
+    this.setData({
+      currentCoefficient: e.detail.value
+    })
+  },
+
+  reconnect:function (params) {
+    var that = this;
+    that.setData({
+      isOpenNotify : false
+    })
+    wx.showLoading({
+      title: '连接蓝牙设备中...',
+    })
+    wx.createBLEConnection({
+      deviceId: that.data.connectedDeviceId,
+      success: function (res) {
+        console.log(res)
+        wx.hideLoading()
+        wx.showToast({
+          title: '连接成功',
+          icon: 'success',
+          duration: 1000
+        })
+        that.openBleNotify();
+      },
+      fail: function (res) {
+        console.log(res)
+        wx.hideLoading()
+        wx.showModal({
+          title: '提示',
+          content: '连接失败',
+          showCancel: false
+        })
+      }
     })
   }
 })

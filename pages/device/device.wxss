@@ -34,7 +34,7 @@ page {
 
 
 .open-notify-button {
-  width: 100%;
+  flex: 1;
   font-size: 12px;
 }
 
@@ -101,7 +101,40 @@ page {
   flex-direction: row;
   position: absolute;
   right: 30rpx;
-
   border-radius: 6px;
   align-items: center;
 }
+
+.modulus-view{
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  align-items: center;
+  justify-content: space-between;
+  border:  1px solid #E7E7E7;
+  border-radius:6px;
+  margin-top: 20rpx;
+}
+
+.modulus-view-item{
+  display: flex;
+  flex-direction: row;
+}
+.modulus-view-item>input{
+  width: 200rpx;
+  height: 30px;
+  font-size: 28rpx;
+  line-height: 30px;
+  margin-left: 20rpx;
+}
+
+.modulus-view-item>label{
+  line-height: 30px;
+  font-size: 28rpx;
+}
+
+.btn-view{
+  display: flex;
+  flex-direction: row;
+}
+
