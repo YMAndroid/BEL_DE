@@ -82,7 +82,7 @@
   <view class="common-horizontal-div-line" style="height:8px;margin-top:10rpx"></view>
 
 
-  <view class="modify-device-name" style="margin-top:20rpx">
+  <view class="modify-device-name" style="margin-top:20rpx" wx:if="{{selectDeviceTypeValue == '从设备'}}">
     <text class="text">16进制数据：</text>
     <input class="notify-input" style="margin-left:10rpx; width:100%" style="font-size:12px" value="{{receiveText}}"
       maxlength="20" placeholder="接收到的通知数据" />
