@@ -86,7 +86,7 @@ page {
   display: flex;
   justify-content: space-between;
   margin: 20rpx;
-  font-size: 14px;
+  font-size: 12px;
   border-bottom:  1px solid #E7E7E7;
   height: 65rpx;
 }

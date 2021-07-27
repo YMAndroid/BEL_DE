@@ -2,7 +2,6 @@
     "pages": [
         "pages/search/search",
         "pages/device/device"
-        
     ],
     "window": {
         "backgroundTextStyle": "light",

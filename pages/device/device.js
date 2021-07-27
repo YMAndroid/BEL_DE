@@ -25,11 +25,28 @@ Page({
   },
   bindInput: function (e) {
     this.setData({
-      inputText: e.detail.value
+      inputText:this.getStr(e.detail.value,16)
     })
     console.log(e.detail.value)
 
   },
+
+  getStr(str,num){
+    let len = 0;
+    const chinese = /[^\x00-\xff]/ig;
+    for(let i=0;i<str.length;i++){
+      if(str.charAt(i).match(chinese)){
+        len +=2;
+      }else{
+        len +=1;
+      }
+      if(len > num){
+        return str.slice(0,i)
+      }
+    }
+    return str
+  },
+
   Send: function () {
     if (!this.data.inputText) {
       wx.showToast({
@@ -96,7 +113,7 @@ Page({
   },
   onLoad: function (options) {
     var that = this
-    //var testData = "1F0559616F67616E67" //--前两位为电压值  后面的为设备名称
+    //var testData = "1f0551776572747975" //--前两位为电压值  后面的为设备名称
     //that.parseData(testData);
     console.log(options)
     that.setData({
@@ -134,11 +151,16 @@ Page({
 
   parseData: function (str) {
     var that = this;
-    var sub1 = str.substring(0, 2);
-    var sub2 = str.substring(2);
+    var sub1 = str.substring(0, 4);
+    var high = sub1.substring(0,2);
+    var low = sub1.substring(2);
+    console.log("high: ",high + " ;low: "+low )
+    var combination = low + high
+    console.log("high: ",high + " ;low: "+low + " ;combination: " + parseInt(combination, 16));
+    var sub2 = str.substring(4);
     console.log("截取的前两位字符串:", sub1);
     console.log("截取的剩余字符串:", sub2);
-    var voltage = app.hexToDecimalism(sub1)[0];
+    var voltage = parseInt(combination, 16);
     var deviceName = app.hexCharCodeToStr(sub2);
     console.log("hexToString: " + deviceName);
     console.log("hexToShi: " + voltage);
