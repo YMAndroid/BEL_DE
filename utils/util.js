@@ -28,6 +28,12 @@ function calcuComponentHeight(context,idnameArr,callback){
   })
 }
 
+function sortBy(props) {
+  return function(a,b) {
+      return b[props] - a[props];
+  }
+}
+
 function getBytesLength(str) {
   // 在GBK编码里，除了ASCII字符，其它都占两个字符宽
   return str.replace(/[^\x00-\xff]/g, 'xx').length;
@@ -36,5 +42,6 @@ function getBytesLength(str) {
 module.exports = {
   formatTime: formatTime,
   calcuComponentHeight: calcuComponentHeight,
-  getBytesLength:getBytesLength
+  getBytesLength:getBytesLength,
+  sortBy:sortBy
 }

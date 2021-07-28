@@ -241,12 +241,16 @@ Page({
           isOpenNotify: true
         })
         wx.showToast({
-          title: '通知打开成功!',
+          title: '打开通知成功!',
           icon: 'none'
         })
       },
       fail: function (res) {
         console.log('启用notify失败: ', res);
+        wx.showToast({
+          title: '打开通知失败!',
+          icon: 'none'
+        })
       }
     })
   },

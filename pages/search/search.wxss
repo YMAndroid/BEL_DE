@@ -25,3 +25,24 @@ page {
   width: 690rpx;
   bottom: 30rpx;
 }
+
+.item{
+  display: flex;
+  flex-direction: row;
+  height: 50rpx;
+  margin-top: 20rpx;
+  align-items: center;
+}
+
+.deviceInput{
+  border: #E7E7E7;
+  border-radius: 5rpx;
+  height: 50rpx;
+}
+
+.head{
+  width: 100%;
+}
+
+
+

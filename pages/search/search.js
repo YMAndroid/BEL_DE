@@ -1,9 +1,18 @@
-const app = getApp()
+const app = getApp();
+const util = require('../../utils/util')
 Page({
   data: {
     searching: false,
-    devicesList: []
+    devicesList: [],
+    deviceName:'',
   },
+
+  deviceNameInput: function(e){
+    this.setData({
+      deviceName:e.detail.value
+    })
+  },
+
   Search: function () {
     var that = this
     if (!that.data.searching) {
@@ -105,10 +114,6 @@ Page({
   },
   onLoad: function (options) {
     var that = this
-    var list_height = ((app.globalData.SystemInfo.windowHeight - 50) * (750 / app.globalData.SystemInfo.windowWidth)) - 60
-    that.setData({
-      list_height: list_height
-    })
     wx.onBluetoothAdapterStateChange(function (res) {
       console.log(res)
       that.setData({
@@ -124,6 +129,11 @@ Page({
       //剔除重复设备，兼容不同设备API的不同返回值
       var isnotexist = true
       if (devices.deviceId) {
+        if(that.data.deviceName){
+          if(devices.name != that.data.deviceName|| devices.localName != that.data.deviceName){
+            return;
+          }
+        }
         if (devices.advertisData)
         {
           devices.advertisData = app.buf2hex(devices.advertisData)
@@ -143,6 +153,11 @@ Page({
         }
       }
       else if (devices.devices) {
+        if(that.data.deviceName){
+          if(devices.devices[0].name != that.data.deviceName|| devices.devices[0].localName != that.data.deviceName){
+            return;
+          }
+        }
         if (devices.devices[0].advertisData)
         {
           devices.devices[0].advertisData = app.buf2hex(devices.devices[0].advertisData)
@@ -162,6 +177,11 @@ Page({
         }
       }
       else if (devices[0]) {
+        if(that.data.deviceName){
+          if(devices[0].name != that.data.deviceName|| devices[0].localName != that.data.deviceName){
+            return;
+          }
+        }
         if (devices[0].advertisData)
         {
           devices[0].advertisData = app.buf2hex(devices[0].advertisData)
@@ -180,13 +200,22 @@ Page({
           that.data.devicesList.push(devices[0])
         }
       }
+
+      //排序
+      that.data.devicesList.sort(util.sortBy('RSSI'));
       that.setData({
         devicesList: that.data.devicesList
       })
     })
   },
   onReady: function () {
-
+    var that = this;
+    let idArr = ['#head']
+    util.calcuComponentHeight(that,idArr,function(res) {
+      that.setData({
+        list_height: app.globalData.SystemInfo.windowHeight - res[0].height - 60
+      })
+    })
   },
   onShow: function () {
     

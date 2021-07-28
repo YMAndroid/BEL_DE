@@ -1,6 +1,18 @@
 <view class="container">
-  <text style="font-size:14px;color:#5083f1;margin-top:5rpx">tips：请先开启设备的蓝牙以及GPS</text>
-  <scroll-view scroll-y style="width:690rpx;height:{{list_height}}rpx">
+
+  <view class="head" id="head">
+    <text style="font-size:14px;color:#5083f1;margin-top:5rpx">tips：请先开启设备的蓝牙以及GPS</text>
+    <view class="common-horizontal-div-line" style="margin-top:20rpx"></view>
+    <view class="item">
+      <label style="font-size:14px;">设备名: </label>
+      <input style="font-size:14px;margin-left:20rpx" placeholder="输入设备名进行过滤" value="{{deviceName}}"
+        bindinput="deviceNameInput"></input>
+    </view>
+
+    <view class="common-horizontal-div-line" style="   margin-top:20rpx;height:20rpx"></view>
+  </view>
+
+  <scroll-view scroll-y style="width:690rpx;height:{{list_height}}px">
     <block wx:for="{{devicesList}}" wx:key="deviceId">
       <view class="list-item" id="{{item.deviceId}}" bindtap="Connect">
         <view style="display:flex;flex-direction:column;width:80%">
@@ -12,5 +24,6 @@
       </view>
     </block>
   </scroll-view>
-  <button type="primary" class="button" loading="{{searching}}" bindtap="Search">{{searching?"搜索中...":"搜索蓝牙设备"}}</button>
+  <button type="primary" class="button" loading="{{searching}}"
+    bindtap="Search">{{searching?"搜索中...":"搜索蓝牙设备"}}</button>
 </view>
