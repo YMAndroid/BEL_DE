@@ -1,14 +1,17 @@
 {
     "pages": [
-        "pages/search/search",
-        "pages/device/device"
+        "pages/companyanniversary/companyanniversary",
+        "pages/guoqing/guoqing",
+        "pages/chrismas/chrismas",
+        "pages/lottery/lottery"
     ],
     "window": {
         "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#f8f8f8",
-        "navigationBarTitleText": "BaoLong Ble monitor",
-        "navigationBarTextStyle": "black",
-        "backgroundColor": "#f8f8f8"
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "头像制作小工具",
+        "navigationBarTextStyle": "black"
     },
+   
+    "style": "v2",
     "sitemapLocation": "sitemap.json"
 }

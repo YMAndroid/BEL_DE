@@ -1,24 +1,2 @@
 /**app.wxss**/
-.container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
 
-/*公共水平分割线 1px */
-.common-horizontal-div-line {
-  background: #E7E7E7;
-  width: 100%;
-  height: 1px;
-}
-
-.nodata {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24rpx;
-  color: #bebbbb;
-  margin-top: 80rpx;
-}
