@@ -4,7 +4,7 @@ const app = getApp();
 const windowWidth = wx.getSystemInfoSync().windowWidth;
 const windowHeight = wx.getSystemInfoSync().windowHeight;
 const pc = wx.createCanvasContext('myCanvas');
-const distense = 150 / 750 * wx.getSystemInfoSync().windowWidth;
+const distense = 380 / 750 * wx.getSystemInfoSync().windowWidth;
 const size = 260;
 Page({
 
@@ -12,14 +12,10 @@ Page({
      * 页面的初始数据
      */
     data: {
-      
-      prurl: '',
       defaultImg: 0,
       userInfo: {},
       hasUserInfo: false,
-      list: [
-        0, 1, 2,3,4,5,6,7,8,9
-      ],
+      list: [0,1,2,3,4,5,6,7,8,9],
       scale:1,
       rotate:0,
       hat_center_x:0,
@@ -35,7 +31,7 @@ Page({
       isSave:false,
       windowHeight:wx.getSystemInfoSync().windowHeight,
       isAuthSavePhoto:false,
-      hotArr:[{name:'国庆',key:'guoqing'},{name:'圣诞',key:'shendan'}],
+      hotArr:[{name:'虎年',key:'hunian'},{name:'国庆',key:'guoqing'},{name:'圣诞',key:'shendan'}],
       curHot:0,
     },
 
@@ -43,30 +39,31 @@ Page({
       let index = e.currentTarget.dataset.index;
       let tempList = [];
       if(index == 0){
-        tempList = [0,1,2];
+        tempList = [0,1,2,3,4,6,6,7,8,9];
       } else if(index == 1){
-        tempList = [0,1];
+        tempList = [0,1, 2,3,4,5,6,7,8,9];
       } else if(index == 2){
+        tempList = [0, 1, 2,3,4,5,6,7,8,9];
       }
       this.setData({
         curHot:index,
-        
+        list: tempList,
+        defaultImg: 0,
       })
     },
   
     selectImg: function(e){
-      if(!this.data.userInfo.avatarUrl) {
-          wx.showToast({
-            icon:"none",
-            title: '请先获取头像!',
-          })
-          return;
-      }
+      // if(!this.data.userInfo.avatarUrl) {
+      //     wx.showToast({
+      //       icon:"none",
+      //       title: '请先获取头像!',
+      //     })
+      //     return;
+      // }
       var current = e.target.dataset.id;
       console.log(current);
       this.setData({
         defaultImg: current,
-        prurl: ''
       });
     },
   
@@ -257,9 +254,9 @@ Page({
       this.setData({
         isSave: true
       })
-      if(this.data.curHot == 0){
+      if(this.data.curHot != 2){
         this.drawImg();
-      } else if(this.data.curHot == 1){
+      } else{
         this.draw();
       }
     },
@@ -304,7 +301,7 @@ Page({
     this.start_y=0;
   },
   touchStart(e){
-    if(this.data.curHot != 1) return;
+    if(this.data.curHot != 2) return;
     console.log("e:",e);
     if(e.target.id=="hat"){
       this.touch_target="hat";
@@ -320,7 +317,7 @@ Page({
     }
   },
   touchEnd(e){
-    if(this.data.curHot != 1) return;
+    if(this.data.curHot != 2) return;
       this.hat_center_x=this.data.hatCenterX;
       this.hat_center_y=this.data.hatCenterY;
       this.cancel_center_x=this.data.cancelCenterX;
@@ -333,7 +330,7 @@ Page({
     this.rotate=this.data.rotate;
   },
   touchMove(e){
-    if(this.data.curHot != 1) return;
+    if(this.data.curHot != 2) return;
     console.log("移动e:",e," ; this.startX,",this.start_x);
       var current_x=e.touches[0].clientX;
       var current_y=e.touches[0].clientY;
